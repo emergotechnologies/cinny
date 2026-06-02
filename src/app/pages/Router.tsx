@@ -49,7 +49,7 @@ import { setAfterLoginRedirectPath } from './afterLoginRedirectPath';
 import { Room } from '../features/room';
 import { Lobby } from '../features/lobby';
 import { WelcomePage } from './client/WelcomePage';
-import { SidebarNav } from './client/SidebarNav';
+import { SingleRoomRedirect } from './client/SingleRoomRedirect';
 import { PageRoot } from '../components/page';
 import { ScreenSize } from '../hooks/useScreenSize';
 import { MobileFriendlyPageNav, MobileFriendlyClientNav } from './MobileFriendly';
@@ -127,13 +127,7 @@ export const createRouter = (clientConfig: ClientConfig, screenSize: ScreenSize)
                   <ClientBindAtoms>
                     <ClientNonUIFeatures>
                       <CallEmbedProvider>
-                        <ClientLayout
-                          nav={
-                            <MobileFriendlyClientNav>
-                              <SidebarNav />
-                            </MobileFriendlyClientNav>
-                          }
-                        >
+                        <ClientLayout nav={null}>
                           <Outlet />
                         </ClientLayout>
                         <CallStatusRenderer />
@@ -168,7 +162,7 @@ export const createRouter = (clientConfig: ClientConfig, screenSize: ScreenSize)
             </PageRoot>
           }
         >
-          {mobile ? null : <Route index element={<WelcomePage />} />}
+          <Route index element={<SingleRoomRedirect />} />
           <Route path={_CREATE_PATH} element={<HomeCreateRoom />} />
           <Route path={_JOIN_PATH} element={<p>join</p>} />
           <Route path={_SEARCH_PATH} element={<HomeSearch />} />

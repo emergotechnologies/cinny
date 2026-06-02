@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
 @font-face {
   font-family: Twemoji;
   src: url('../public/font/Twemoji.Mozilla.v15.1.0.woff2'),
@@ -6,25 +8,25 @@
 }
 
 :root {
-  --tc-link: hsl(213deg 100% 45%);
+  --tc-link: #00e5ff;
 
   /* user mxid colors */
-  --mx-uc-1: hsl(208, 100%, 45%);
-  --mx-uc-2: hsl(302, 100%, 30%);
-  --mx-uc-3: hsl(163, 100%, 30%);
-  --mx-uc-4: hsl(343, 100%, 45%);
-  --mx-uc-5: hsl(24, 100%, 45%);
-  --mx-uc-6: hsl(181, 100%, 30%);
-  --mx-uc-7: hsl(242, 100%, 45%);
-  --mx-uc-8: hsl(94, 100%, 35%);
+  --mx-uc-1: hsl(208, 100%, 75%);
+  --mx-uc-2: hsl(301, 100%, 80%);
+  --mx-uc-3: hsl(163, 100%, 70%);
+  --mx-uc-4: hsl(343, 100%, 75%);
+  --mx-uc-5: hsl(24, 100%, 70%);
+  --mx-uc-6: hsl(181, 100%, 60%);
+  --mx-uc-7: hsl(243, 100%, 80%);
+  --mx-uc-8: hsl(94, 100%, 80%);
 
   --font-emoji: 'Twemoji_DISABLED';
-  --font-secondary: 'InterVariable', var(--font-emoji), sans-serif;
+  --font-secondary: 'Manrope', var(--font-emoji), sans-serif;
 }
 
 .dark-theme,
 .butter-theme {
-  --tc-link: hsl(213deg 100% 80%);
+  --tc-link: #00e5ff;
 
   --mx-uc-1: hsl(208, 100%, 75%);
   --mx-uc-2: hsl(301, 100%, 80%);
@@ -35,7 +37,7 @@
   --mx-uc-7: hsl(243, 100%, 80%);
   --mx-uc-8: hsl(94, 100%, 80%);
 
-  --font-secondary: 'InterVariable', var(--font-emoji), sans-serif;
+  --font-secondary: 'Manrope', var(--font-emoji), sans-serif;
 }
 
 html {
@@ -47,12 +49,33 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: #000000;
   font-family: var(--font-secondary);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 400;
+}
 
-  /*Why font-variant-ligatures => https://github.com/rsms/inter/issues/222 */
-  font-variant-ligatures: no-contextual;
+/* AIPulse scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.35);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
 }
 #root {
   width: 100%;
