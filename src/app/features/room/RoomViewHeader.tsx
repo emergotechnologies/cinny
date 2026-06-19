@@ -45,7 +45,6 @@ import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
 import { markAsRead } from '../../utils/notifications';
 import { roomToUnreadAtom } from '../../state/room/roomToUnread';
 import { copyToClipboard } from '../../utils/dom';
-import { LeaveRoomPrompt } from '../../components/leave-room-prompt';
 import { useRoomAvatar, useRoomName, useRoomTopic } from '../../hooks/useRoomMeta';
 import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
 import { stopPropagation } from '../../utils/keyboard';
@@ -66,7 +65,6 @@ import { JumpToTime } from './jump-to-time';
 import { useRoomNavigate } from '../../hooks/useRoomNavigate';
 import { useRoomCreators } from '../../hooks/useRoomCreators';
 import { useRoomPermissions } from '../../hooks/useRoomPermissions';
-import { InviteUserPrompt } from '../../components/invite-user-prompt';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import { RoomSettingsPage } from '../../state/roomSettings';
 import { useCallEmbed, useCallStart } from '../../hooks/useCallEmbed';
@@ -81,24 +79,13 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
   const mx = useMatrixClient();
   const [hideActivity] = useSetting(settingsAtom, 'hideActivity');
   const unread = useRoomUnread(room.roomId, roomToUnreadAtom);
-  const powerLevels = usePowerLevelsContext();
-  const creators = useRoomCreators(room);
-
-  const permissions = useRoomPermissions(creators, powerLevels);
-  const canInvite = permissions.action('invite', mx.getSafeUserId());
   const notificationPreferences = useRoomsNotificationPreferencesContext();
   const notificationMode = getRoomNotificationMode(notificationPreferences, room.roomId);
   const { navigateRoom } = useRoomNavigate();
 
-  const [invitePrompt, setInvitePrompt] = useState(false);
-
   const handleMarkAsRead = () => {
     markAsRead(mx, room.roomId, hideActivity);
     requestClose();
-  };
-
-  const handleInvite = () => {
-    setInvitePrompt(true);
   };
 
   const handleCopyLink = () => {
@@ -117,15 +104,6 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
 
   return (
     <Menu ref={ref} style={{ maxWidth: toRem(160), width: '100vw' }}>
-      {invitePrompt && (
-        <InviteUserPrompt
-          room={room}
-          requestClose={() => {
-            setInvitePrompt(false);
-            requestClose();
-          }}
-        />
-      )}
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
         <MenuItem
           onClick={handleMarkAsRead}
@@ -162,20 +140,6 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
       </Box>
       <Line variant="Surface" size="300" />
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
-        <MenuItem
-          onClick={handleInvite}
-          variant="Primary"
-          fill="None"
-          size="300"
-          after={<Icon size="100" src={Icons.UserPlus} />}
-          radii="300"
-          aria-pressed={invitePrompt}
-          disabled={!canInvite}
-        >
-          <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Invite
-          </Text>
-        </MenuItem>
         <MenuItem
           onClick={handleCopyLink}
           size="300"
@@ -218,35 +182,6 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
                     requestClose();
                   }}
                   onCancel={() => setPromptJump(false)}
-                />
-              )}
-            </>
-          )}
-        </UseStateProvider>
-      </Box>
-      <Line variant="Surface" size="300" />
-      <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
-        <UseStateProvider initial={false}>
-          {(promptLeave, setPromptLeave) => (
-            <>
-              <MenuItem
-                onClick={() => setPromptLeave(true)}
-                variant="Critical"
-                fill="None"
-                size="300"
-                after={<Icon size="100" src={Icons.ArrowGoLeft} />}
-                radii="300"
-                aria-pressed={promptLeave}
-              >
-                <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                  Leave Room
-                </Text>
-              </MenuItem>
-              {promptLeave && (
-                <LeaveRoomPrompt
-                  roomId={room.roomId}
-                  onDone={requestClose}
-                  onCancel={() => setPromptLeave(false)}
                 />
               )}
             </>

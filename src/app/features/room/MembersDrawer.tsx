@@ -204,7 +204,13 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
   const typingMembers = useRoomTypingMember(room.roomId);
 
   const filteredMembers = useMemo(
-    () => members.filter(membershipFilter.filterFn).sort(memberSort.sortFn).sort(memberPowerSort),
+    // () => members.filter(membershipFilter.filterFn).sort(memberSort.sortFn).sort(memberPowerSort),
+    () =>
+      members
+        .filter((m) => getMxIdLocalPart(m.userId) !== 'synapse_bot')
+        .filter(membershipFilter.filterFn)
+        .sort(memberSort.sortFn)
+        .sort(memberPowerSort),
     [members, membershipFilter, memberSort, memberPowerSort]
   );
 

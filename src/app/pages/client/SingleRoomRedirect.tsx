@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Spinner } from 'folds';
+import { ClientEvent } from 'matrix-js-sdk';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getHomeRoomPath } from '../pathUtils';
 
@@ -9,11 +10,21 @@ export function SingleRoomRedirect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const rooms = mx.getRooms();
-    const firstRoom = rooms[0];
-    if (firstRoom) {
-      navigate(getHomeRoomPath(firstRoom.roomId), { replace: true });
-    }
+    const tryNavigate = () => {
+      const firstRoom = mx.getRooms()[0];
+      if (firstRoom) {
+        navigate(getHomeRoomPath(firstRoom.roomId), { replace: true });
+        return true;
+      }
+      return false;
+    };
+
+    if (tryNavigate()) return undefined;
+
+    mx.on(ClientEvent.Sync, tryNavigate);
+    return () => {
+      mx.off(ClientEvent.Sync, tryNavigate);
+    };
   }, [mx, navigate]);
 
   return (
