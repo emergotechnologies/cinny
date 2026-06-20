@@ -63,7 +63,7 @@ export const LogoutDialog = forwardRef<HTMLDivElement, LogoutDialogProps>(
                 description="Enable device verification or export your encrypted data from settings to avoid losing access to your messages."
               />
             ))}
-          <Text priority="400">You’re about to log out. Are you sure?</Text>
+          <Text priority="400">You're about to log out. Are you sure?</Text>
           {logoutState.status === AsyncStatus.Error && (
             <Text style={{ color: color.Critical.Main }} size="T300">
               Failed to logout! {logoutState.error.message}

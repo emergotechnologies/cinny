@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Avatar,
   Badge,
@@ -64,14 +65,15 @@ type MemberDrawerHeaderProps = {
   room: Room;
 };
 function MemberDrawerHeader({ room }: MemberDrawerHeaderProps) {
+  const { t } = useTranslation();
   const setPeopleDrawer = useSetSetting(settingsAtom, 'isPeopleDrawer');
 
   return (
     <Header className={css.MembersDrawerHeader} variant="Background" size="600">
       <Box grow="Yes" alignItems="Center" gap="200">
         <Box grow="Yes" alignItems="Center" gap="200">
-          <Text title={`${room.getJoinedMemberCount()} Members`} size="H5" truncate>
-            {`${millify(room.getJoinedMemberCount())} Members`}
+          <Text title={t('Organisms.MembersDrawer.members_count', { count: room.getJoinedMemberCount() })} size="H5" truncate>
+            {`${millify(room.getJoinedMemberCount())} ${t('Organisms.MembersDrawer.members')}`}
           </Text>
         </Box>
         <Box shrink="No" alignItems="Center">
@@ -81,7 +83,7 @@ function MemberDrawerHeader({ room }: MemberDrawerHeaderProps) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>Close</Text>
+                <Text>{t('Organisms.MembersDrawer.close')}</Text>
               </Tooltip>
             }
           >
@@ -177,6 +179,7 @@ type MembersDrawerProps = {
   members: RoomMember[];
 };
 export function MembersDrawer({ room, members }: MembersDrawerProps) {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -332,7 +335,7 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                   ref={searchInputRef}
                   onChange={handleSearchChange}
                   style={{ paddingRight: config.space.S200 }}
-                  placeholder="Type name..."
+                  placeholder={t('Organisms.MembersDrawer.search_placeholder')}
                   variant="Surface"
                   size="400"
                   radii="400"
@@ -353,9 +356,11 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                         }}
                         after={<Icon size="50" src={Icons.Cross} />}
                       >
-                        <Text size="B300">{`${result.items.length || 'No'} ${
-                          result.items.length === 1 ? 'Result' : 'Results'
-                        }`}</Text>
+                        <Text size="B300">
+                          {result.items.length === 0
+                            ? t('Organisms.MembersDrawer.no_results')
+                            : `${result.items.length} ${result.items.length === 1 ? t('Organisms.MembersDrawer.result') : t('Organisms.MembersDrawer.results')}`}
+                        </Text>
                       </Chip>
                     )
                   }
@@ -370,7 +375,7 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
                 radii="Pill"
                 outlined
                 size="300"
-                aria-label="Scroll to Top"
+                aria-label={t('Organisms.MembersDrawer.scroll_to_top')}
               >
                 <Icon src={Icons.ChevronTop} size="300" />
               </IconButton>
@@ -378,7 +383,7 @@ export function MembersDrawer({ room, members }: MembersDrawerProps) {
 
             {!fetchingMembers && !result && processMembers.length === 0 && (
               <Text style={{ padding: config.space.S300 }} align="Center">
-                {`No "${membershipFilter.name}" Members`}
+                {t('Organisms.MembersDrawer.no_members', { filterName: membershipFilter.name })}
               </Text>
             )}
 

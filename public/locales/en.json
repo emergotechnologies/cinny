@@ -1,7 +1,206 @@
 {
   "Organisms": {
     "RoomCommon": {
-      "changed_room_name": " changed room name"
+      "changed_room_name": " changed room name",
+      "changed_room_topic": " changed room topic",
+      "changed_room_avatar": " changed room avatar",
+      "joined_the_call": " joined the call",
+      "ended_the_call": " ended the call",
+      "sent": " sent ",
+      "state_event": " state event",
+      "event": " event"
+    },
+    "RoomInput": {
+      "placeholder": "Send a message...",
+      "drop_files": "Drop Files in \"{{roomName}}\"",
+      "drag_drop_hint": "Drag and drop files here or click for selection dialog"
+    },
+    "RoomHeader": {
+      "mark_as_read": "Mark as Read",
+      "notifications": "Notifications",
+      "copy_link": "Copy Link",
+      "room_settings": "Room Settings",
+      "jump_to_time": "Jump to Time",
+      "search": "Search",
+      "pinned_messages": "Pinned Messages",
+      "call_tooltip": "Call",
+      "call_in_another": "Already in another call — End the current call to join!",
+      "start_call": "Start Call",
+      "voice": "Voice",
+      "video": "Video",
+      "members": "Members",
+      "show_members": "Show Members",
+      "hide_members": "Hide Members",
+      "more_options": "More Options"
+    },
+    "RoomView": {
+      "no_permission": "You do not have permission to post in this room"
+    },
+    "RoomTimeline": {
+      "new_messages": "New Messages",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "jump_to_unread": "Jump to Unread",
+      "mark_as_read": "Mark as Read",
+      "jump_to_latest": "Jump to Latest"
+    },
+    "RoomViewFollowing": {
+      "is_following": " is following the conversation.",
+      "are_following": " are following the conversation.",
+      "and": " and ",
+      "others": " others"
+    },
+    "RoomViewTyping": {
+      "is_typing": " is typing...",
+      "are_typing": " are typing...",
+      "and": " and ",
+      "others": " others",
+      "drop_typing": "Drop Typing Status"
+    },
+    "RoomTombstone": {
+      "replaced": "This room has been replaced and is no longer active.",
+      "join_failed": "Failed to join replacement room!",
+      "open_new": "Open New Room",
+      "join_new": "Join New Room"
+    },
+    "CallChatView": {
+      "chat": "Chat",
+      "close": "Close"
+    },
+    "MembersDrawer": {
+      "members_count": "{{count}} Members",
+      "members": "Members",
+      "close": "Close",
+      "search_placeholder": "Type name...",
+      "no_results": "No Results",
+      "result": "Result",
+      "results": "Results",
+      "no_members": "No \"{{filterName}}\" Members",
+      "scroll_to_top": "Scroll to Top"
+    },
+    "RoomIntro": {
+      "beginning": "This is the beginning of conversation.",
+      "created_by": "Created by ",
+      "open_old": "Open Old Room",
+      "join_old": "Join Old Room"
+    },
+    "RoomPinMenu": {
+      "pinned_messages": "Pinned Messages",
+      "open": "Open",
+      "failed_to_load": "Failed to load message!",
+      "no_pinned": "No Pinned Messages",
+      "pin_hint": "Users with sufficient power level can pin a messages from its context menu."
+    },
+    "JumpToTime": {
+      "title": "Jump to Time",
+      "time": "Time",
+      "date": "Date",
+      "preset": "Preset",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "beginning": "Beginning",
+      "open_timeline": "Open Timeline"
+    },
+    "Message": {
+      "view_reactions": "View Reactions",
+      "read_receipts": "Read Receipts",
+      "source_code": "Source Code",
+      "view_source": "View Source",
+      "copy_link": "Copy Link",
+      "unpin_message": "Unpin Message",
+      "pin_message": "Pin Message",
+      "delete_message": "Delete Message",
+      "delete_confirm": "This action is irreversible! Are you sure that you want to delete this message?",
+      "reason": "Reason",
+      "optional": "(optional)",
+      "delete_failed": "Failed to delete message! Please try again.",
+      "deleting": "Deleting...",
+      "delete": "Delete",
+      "report_message": "Report Message",
+      "report_description": "Report this message to server, which may then notify the appropriate people to take action.",
+      "report_failed": "Failed to report message! Please try again.",
+      "reported": "Message has been reported to server.",
+      "reporting": "Reporting...",
+      "report": "Report",
+      "add_reaction": "Add Reaction",
+      "reply": "Reply",
+      "reply_in_thread": "Reply in Thread",
+      "edit_message": "Edit Message"
+    },
+    "MessageEditor": {
+      "placeholder": "Edit message...",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "CallView": {
+      "no_livekit": "Your homeserver does not support calling.",
+      "no_webrtc": "Your browser does not support WebRTC, which is required for calling.",
+      "chat_empty": "Voice chat's empty — Be the first to hop in!",
+      "no_permission": "You don't have permission to join!",
+      "already_in_call": "Already in another call — End the current call to join!",
+      "participant": "Participant",
+      "live_count": "{{count}} Live"
+    },
+    "CallControls": {
+      "grid_view": "Grid View",
+      "spotlight_view": "Spotlight View",
+      "reactions": "Reactions",
+      "settings": "Settings",
+      "end": "End"
+    },
+    "PrescreenControls": {
+      "join": "Join"
+    },
+    "MemberFilter": {
+      "joined": "Joined",
+      "invited": "Invited",
+      "left": "Left",
+      "kicked": "Kicked",
+      "banned": "Banned"
+    },
+    "MemberSort": {
+      "a_to_z": "A to Z",
+      "z_to_a": "Z to A",
+      "newest": "Newest",
+      "oldest": "Oldest"
+    },
+    "PowerTag": {
+      "goku": "Goku",
+      "manager": "Manager",
+      "founder": "Founder",
+      "admin": "Admin",
+      "moderator": "Moderator",
+      "member": "Member",
+      "muted": "Muted",
+      "team_fallback": "{{name}} {{power}}",
+      "team_unknown": "Team {{power}}"
+    },
+    "MemberEvent": {
+      "broken_event": "Broken membership event",
+      "accepted_join_request_pre": " accepted ",
+      "accepted_join_request_post": "'s join request ",
+      "invited_pre": " invited ",
+      "invited_post": "",
+      "request_to_join": " request to join room ",
+      "joined_the_room": " joined the room",
+      "rejected_invitation": " rejected the invitation ",
+      "rejected_join_request_pre": " rejected ",
+      "rejected_join_request_post": "'s join request ",
+      "revoked_join_request": " revoked join request ",
+      "revoked_invite_pre": " revoked ",
+      "revoked_invite_post": "'s invite ",
+      "unbanned_pre": " unbanned ",
+      "unbanned_post": "",
+      "left_the_room": " left the room ",
+      "kicked_pre": " kicked ",
+      "kicked_post": "",
+      "banned_pre": " banned ",
+      "banned_post": "",
+      "changed_display_name_to": " changed display name to ",
+      "removed_display_name": " removed their display name ",
+      "changed_avatar": " changed their avatar",
+      "removed_avatar": " removed their avatar ",
+      "no_changes": "Membership event with no changes"
     }
   }
 }

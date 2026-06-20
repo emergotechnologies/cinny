@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, forwardRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import FocusTrap from 'focus-trap-react';
 import {
   Box,
@@ -76,6 +77,7 @@ type RoomMenuProps = {
   requestClose: () => void;
 };
 const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose }, ref) => {
+  const { t } = useTranslation();
   const mx = useMatrixClient();
   const [hideActivity] = useSetting(settingsAtom, 'hideActivity');
   const unread = useRoomUnread(room.roomId, roomToUnreadAtom);
@@ -113,7 +115,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           disabled={!unread}
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Mark as Read
+            {t('Organisms.RoomHeader.mark_as_read')}
           </Text>
         </MenuItem>
         <RoomNotificationModeSwitcher roomId={room.roomId} value={notificationMode}>
@@ -132,7 +134,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
               onClick={handleOpen}
             >
               <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                Notifications
+                {t('Organisms.RoomHeader.notifications')}
               </Text>
             </MenuItem>
           )}
@@ -147,7 +149,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Copy Link
+            {t('Organisms.RoomHeader.copy_link')}
           </Text>
         </MenuItem>
         <MenuItem
@@ -157,7 +159,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
           radii="300"
         >
           <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-            Room Settings
+            {t('Organisms.RoomHeader.room_settings')}
           </Text>
         </MenuItem>
         <UseStateProvider initial={false}>
@@ -171,7 +173,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
                 aria-pressed={promptJump}
               >
                 <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
-                  Jump to Time
+                  {t('Organisms.RoomHeader.jump_to_time')}
                 </Text>
               </MenuItem>
               {promptJump && (
@@ -199,6 +201,7 @@ type CallMenuProps = {
 };
 const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
   ({ requestClose, onVoiceCall, onVideoCall }, ref) => {
+    const { t } = useTranslation();
     const handleVoice = () => {
       onVoiceCall();
       requestClose();
@@ -211,7 +214,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
     return (
       <Menu ref={ref} style={{ padding: config.space.S200, minWidth: toRem(150) }}>
         <Box direction="Column" gap="200">
-          <Text size="L400">Start Call</Text>
+          <Text size="L400">{t('Organisms.RoomHeader.start_call')}</Text>
           <Box direction="Column" gap="200">
             <Button
               size="300"
@@ -222,7 +225,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
               before={<Icon size="100" src={Icons.Phone} filled />}
               onClick={handleVoice}
             >
-              <Text size="B300">Voice</Text>
+              <Text size="B300">{t('Organisms.RoomHeader.voice')}</Text>
             </Button>
             <Button
               size="300"
@@ -231,7 +234,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
               before={<Icon size="100" src={Icons.VideoCamera} filled />}
               onClick={handleVideo}
             >
-              <Text size="B300">Video</Text>
+              <Text size="B300">{t('Organisms.RoomHeader.video')}</Text>
             </Button>
           </Box>
         </Box>
@@ -241,6 +244,7 @@ const CallMenu = forwardRef<HTMLDivElement, CallMenuProps>(
 );
 
 function CallButton() {
+  const { t } = useTranslation();
   const room = useRoom();
   const direct = useIsDirectRoom();
 
@@ -262,9 +266,9 @@ function CallButton() {
         tooltip={
           <Tooltip>
             {inAnotherCall ? (
-              <Text size="L400">Already in another call — End the current call to join!</Text>
+              <Text size="L400">{t('Organisms.RoomHeader.call_in_another')}</Text>
             ) : (
-              <Text>Call</Text>
+              <Text>{t('Organisms.RoomHeader.call_tooltip')}</Text>
             )}
           </Tooltip>
         }
@@ -319,6 +323,7 @@ function CallButton() {
 }
 
 export function RoomViewHeader({ callView }: { callView?: boolean }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
@@ -461,7 +466,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               offset={4}
               tooltip={
                 <Tooltip>
-                  <Text>Search</Text>
+                  <Text>{t('Organisms.RoomHeader.search')}</Text>
                 </Tooltip>
               }
             >
@@ -477,7 +482,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>Pinned Messages</Text>
+                <Text>{t('Organisms.RoomHeader.pinned_messages')}</Text>
               </Tooltip>
             }
           >
@@ -539,9 +544,9 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               tooltip={
                 <Tooltip>
                   {callView ? (
-                    <Text>Members</Text>
+                    <Text>{t('Organisms.RoomHeader.members')}</Text>
                   ) : (
-                    <Text>{peopleDrawer ? 'Hide Members' : 'Show Members'}</Text>
+                    <Text>{peopleDrawer ? t('Organisms.RoomHeader.hide_members') : t('Organisms.RoomHeader.show_members')}</Text>
                   )}
                 </Tooltip>
               }
@@ -560,7 +565,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             offset={4}
             tooltip={
               <Tooltip>
-                <Text>More Options</Text>
+                <Text>{t('Organisms.RoomHeader.more_options')}</Text>
               </Tooltip>
             }
           >

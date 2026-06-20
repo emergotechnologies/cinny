@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -34,6 +35,7 @@ type CallControlsProps = {
   callEmbed: CallEmbed;
 };
 export function CallControls({ callEmbed }: CallControlsProps) {
+  const { t } = useTranslation();
   const controlRef = useRef<HTMLDivElement>(null);
   const [compact, setCompact] = useState(document.body.clientWidth < 500);
 
@@ -137,7 +139,7 @@ export function CallControls({ callEmbed }: CallControlsProps) {
                         onClick={handleSpotlightClick}
                       >
                         <Text size="B300" truncate>
-                          {spotlight ? 'Grid View' : 'Spotlight View'}
+                          {spotlight ? t('Organisms.CallControls.grid_view') : t('Organisms.CallControls.spotlight_view')}
                         </Text>
                       </MenuItem>
                       <MenuItem
@@ -147,7 +149,7 @@ export function CallControls({ callEmbed }: CallControlsProps) {
                         onClick={handleReactionsClick}
                       >
                         <Text size="B300" truncate>
-                          Reactions
+                          {t('Organisms.CallControls.reactions')}
                         </Text>
                       </MenuItem>
                       <MenuItem
@@ -157,7 +159,7 @@ export function CallControls({ callEmbed }: CallControlsProps) {
                         onClick={handleSettingsClick}
                       >
                         <Text size="B300" truncate>
-                          Settings
+                          {t('Organisms.CallControls.settings')}
                         </Text>
                       </MenuItem>
                     </Box>
@@ -193,7 +195,7 @@ export function CallControls({ callEmbed }: CallControlsProps) {
               }
               disabled={exiting}
             >
-              <Text size="B400">End</Text>
+              <Text size="B400">{t('Organisms.CallControls.end')}</Text>
             </Button>
           </Box>
         </Box>

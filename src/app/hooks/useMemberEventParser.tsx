@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconSrc, Icons } from 'folds';
 import { MatrixEvent } from 'matrix-js-sdk';
 import { IMemberContent, Membership } from '../../types/matrix/room';
@@ -13,6 +14,8 @@ export type ParsedResult = {
 export type MemberEventParser = (mEvent: MatrixEvent) => ParsedResult;
 
 export const useMemberEventParser = (): MemberEventParser => {
+  const { t } = useTranslation();
+
   const parseMemberEvent: MemberEventParser = (mEvent) => {
     const content = mEvent.getContent<IMemberContent>();
     const prevContent = mEvent.getPrevContent() as IMemberContent;
@@ -23,7 +26,7 @@ export const useMemberEventParser = (): MemberEventParser => {
     if (!senderId || !userId)
       return {
         icon: Icons.User,
-        body: 'Broken membership event',
+        body: t('Organisms.MemberEvent.broken_event'),
       };
 
     const senderName = getMxIdLocalPart(senderId);
@@ -40,9 +43,9 @@ export const useMemberEventParser = (): MemberEventParser => {
             body: (
               <>
                 <b>{senderName}</b>
-                {' accepted '}
+                {t('Organisms.MemberEvent.accepted_join_request_pre')}
                 <b>{userName}</b>
-                {`'s join request `}
+                {t('Organisms.MemberEvent.accepted_join_request_post')}
                 {reason}
               </>
             ),
@@ -54,8 +57,10 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{senderName}</b>
-              {' invited '}
-              <b>{userName}</b> {reason}
+              {t('Organisms.MemberEvent.invited_pre')}
+              <b>{userName}</b>
+              {t('Organisms.MemberEvent.invited_post')}
+              {reason}
             </>
           ),
         };
@@ -67,7 +72,7 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{userName}</b>
-              {' request to join room '}
+              {t('Organisms.MemberEvent.request_to_join')}
               {reason}
             </>
           ),
@@ -80,7 +85,7 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{userName}</b>
-              {' joined the room'}
+              {t('Organisms.MemberEvent.joined_the_room')}
             </>
           ),
         };
@@ -94,15 +99,15 @@ export const useMemberEventParser = (): MemberEventParser => {
               senderId === userId ? (
                 <>
                   <b>{userName}</b>
-                  {' rejected the invitation '}
+                  {t('Organisms.MemberEvent.rejected_invitation')}
                   {reason}
                 </>
               ) : (
                 <>
                   <b>{senderName}</b>
-                  {' rejected '}
+                  {t('Organisms.MemberEvent.rejected_join_request_pre')}
                   <b>{userName}</b>
-                  {`'s join request `}
+                  {t('Organisms.MemberEvent.rejected_join_request_post')}
                   {reason}
                 </>
               ),
@@ -116,15 +121,15 @@ export const useMemberEventParser = (): MemberEventParser => {
               senderId === userId ? (
                 <>
                   <b>{userName}</b>
-                  {' revoked joined request '}
+                  {t('Organisms.MemberEvent.revoked_join_request')}
                   {reason}
                 </>
               ) : (
                 <>
                   <b>{senderName}</b>
-                  {' revoked '}
+                  {t('Organisms.MemberEvent.revoked_invite_pre')}
                   <b>{userName}</b>
-                  {`'s invite `}
+                  {t('Organisms.MemberEvent.revoked_invite_post')}
                   {reason}
                 </>
               ),
@@ -137,8 +142,10 @@ export const useMemberEventParser = (): MemberEventParser => {
             body: (
               <>
                 <b>{senderName}</b>
-                {' unbanned '}
-                <b>{userName}</b> {reason}
+                {t('Organisms.MemberEvent.unbanned_pre')}
+                <b>{userName}</b>
+                {t('Organisms.MemberEvent.unbanned_post')}
+                {reason}
               </>
             ),
           };
@@ -150,14 +157,16 @@ export const useMemberEventParser = (): MemberEventParser => {
             senderId === userId ? (
               <>
                 <b>{userName}</b>
-                {' left the room '}
+                {t('Organisms.MemberEvent.left_the_room')}
                 {reason}
               </>
             ) : (
               <>
                 <b>{senderName}</b>
-                {' kicked '}
-                <b>{userName}</b> {reason}
+                {t('Organisms.MemberEvent.kicked_pre')}
+                <b>{userName}</b>
+                {t('Organisms.MemberEvent.kicked_post')}
+                {reason}
               </>
             ),
         };
@@ -169,8 +178,10 @@ export const useMemberEventParser = (): MemberEventParser => {
           body: (
             <>
               <b>{senderName}</b>
-              {' banned '}
-              <b>{userName}</b> {reason}
+              {t('Organisms.MemberEvent.banned_pre')}
+              <b>{userName}</b>
+              {t('Organisms.MemberEvent.banned_post')}
+              {reason}
             </>
           ),
         };
@@ -189,17 +200,18 @@ export const useMemberEventParser = (): MemberEventParser => {
           typeof content.displayname === 'string' ? (
             <>
               <b>{prevUserName}</b>
-              {' changed display name to '}
+              {t('Organisms.MemberEvent.changed_display_name_to')}
               <b>{userName}</b>
             </>
           ) : (
             <>
               <b>{prevUserName}</b>
-              {' removed their display name '}
+              {t('Organisms.MemberEvent.removed_display_name')}
             </>
           ),
       };
     }
+
     if (content.avatar_url !== prevContent.avatar_url) {
       return {
         icon: Icons.User,
@@ -207,12 +219,12 @@ export const useMemberEventParser = (): MemberEventParser => {
           content.avatar_url && typeof content.avatar_url === 'string' ? (
             <>
               <b>{userName}</b>
-              {' changed their avatar'}
+              {t('Organisms.MemberEvent.changed_avatar')}
             </>
           ) : (
             <>
               <b>{userName}</b>
-              {' removed their avatar '}
+              {t('Organisms.MemberEvent.removed_avatar')}
             </>
           ),
       };
@@ -220,7 +232,7 @@ export const useMemberEventParser = (): MemberEventParser => {
 
     return {
       icon: Icons.User,
-      body: 'Membership event with no changes',
+      body: t('Organisms.MemberEvent.no_changes'),
     };
   };
 

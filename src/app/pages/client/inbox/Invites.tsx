@@ -450,7 +450,7 @@ function KnownInvites({
             <PageHero
               icon={<Icon size="600" src={Icons.Mail} />}
               title="No Invites"
-              subTitle="When someone you share a room with sends you an invite, it’ll show up here."
+              subTitle="When someone you share a room with sends you an invite, it'll show up here."
             />
           </PageHeroSection>
         </PageHeroEmpty>
