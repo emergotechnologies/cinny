@@ -15,6 +15,8 @@ FROM nginx:1.29.8-alpine
 
 COPY --from=builder /src/dist /app
 COPY --from=builder /src/docker-nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker-entrypoint.d/40-generate-config.sh /docker-entrypoint.d/40-generate-config.sh
 
 RUN rm -rf /usr/share/nginx/html \
-  && ln -s /app /usr/share/nginx/html
+  && ln -s /app /usr/share/nginx/html \
+  && chmod +x /docker-entrypoint.d/40-generate-config.sh

@@ -1,6 +1,7 @@
 {
   "defaultHomeserver": 0,
   "homeserverList": ["localhost:8008"],
+  "homeserverBaseUrl": "http://localhost:8008",
   "allowCustomHomeservers": false,
 
   "hashRouter": {

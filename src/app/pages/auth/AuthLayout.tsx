@@ -9,13 +9,7 @@ import { AutoDiscoveryInfoProvider } from '../../hooks/useAutoDiscoveryInfo';
 import { AuthFlowsLoader } from '../../components/AuthFlowsLoader';
 import { AuthFlowsProvider } from '../../hooks/useAuthFlows';
 import { AuthServerProvider } from '../../hooks/useAuthServer';
-
-const HOMESERVER_BASE_URL = 'http://localhost:8008';
-const HOMESERVER_NAME = 'localhost:8008';
-
-const HARDCODED_DISCOVERY: AutoDiscoveryInfo = {
-  'm.homeserver': { base_url: HOMESERVER_BASE_URL },
-};
+import { clientDefaultServer, useClientConfig } from '../../hooks/useClientConfig';
 
 function FullscreenSpinner() {
   return (
@@ -42,16 +36,21 @@ function FullscreenError({ message }: { message: string }) {
 }
 
 export function AuthLayout() {
+  const clientConfig = useClientConfig();
+  const homeserverName = clientDefaultServer(clientConfig);
+  const homeserverBaseUrl = clientConfig.homeserverBaseUrl ?? `https://${homeserverName}`;
+  const discovery: AutoDiscoveryInfo = {
+    'm.homeserver': { base_url: homeserverBaseUrl },
+  };
+
   return (
     <Box style={{ width: '100%', height: '100%' }} direction="Column">
-      <AuthServerProvider value={HOMESERVER_NAME}>
-        <AutoDiscoveryInfoProvider value={HARDCODED_DISCOVERY}>
+      <AuthServerProvider value={homeserverName}>
+        <AutoDiscoveryInfoProvider value={discovery}>
           <SpecVersionsLoader
-            baseUrl={HOMESERVER_BASE_URL}
+            baseUrl={homeserverBaseUrl}
             fallback={() => <FullscreenSpinner />}
-            error={() => (
-              <FullscreenError message="Failed to connect to Matrix server at localhost:8008." />
-            )}
+            error={() => <FullscreenError message="Failed to connect to the Matrix server." />}
           >
             {(specVersions) => (
               <SpecVersionsProvider value={specVersions}>

@@ -8,6 +8,7 @@ export type HashRouterConfig = {
 export type ClientConfig = {
   defaultHomeserver?: number;
   homeserverList?: string[];
+  homeserverBaseUrl?: string;
   allowCustomHomeservers?: boolean;
 
   featuredCommunities?: {
