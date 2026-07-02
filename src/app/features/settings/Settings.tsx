@@ -28,7 +28,6 @@ import { nameInitials } from '../../utils/common';
 import { Notifications } from './notifications';
 import { Devices } from './devices';
 import { EmojisStickers } from './emojis-stickers';
-import { DeveloperTools } from './developer-tools';
 import { About } from './about';
 import { UseStateProvider } from '../../components/UseStateProvider';
 import { stopPropagation } from '../../utils/keyboard';
@@ -77,11 +76,6 @@ const useSettingsMenuItems = (): SettingsMenuItem[] =>
         page: SettingsPages.EmojisStickersPage,
         name: 'Emojis & Stickers',
         icon: Icons.Smile,
-      },
-      {
-        page: SettingsPages.DeveloperToolsPage,
-        name: 'Developer Tools',
-        icon: Icons.Terminal,
       },
       {
         page: SettingsPages.AboutPage,
@@ -224,9 +218,6 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
       )}
       {activePage === SettingsPages.EmojisStickersPage && (
         <EmojisStickers requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.DeveloperToolsPage && (
-        <DeveloperTools requestClose={handlePageRequestClose} />
       )}
       {activePage === SettingsPages.AboutPage && <About requestClose={handlePageRequestClose} />}
     </PageRoot>

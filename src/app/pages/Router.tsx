@@ -25,12 +25,7 @@ import {
   _SEARCH_PATH,
   CREATE_PATH,
 } from './paths';
-import {
-  getAppPathFromHref,
-  getHomePath,
-  getLoginPath,
-  getOriginBaseUrl,
-} from './pathUtils';
+import { getAppPathFromHref, getHomePath, getLoginPath, getOriginBaseUrl } from './pathUtils';
 import { ClientBindAtoms, ClientLayout, ClientRoot } from './client';
 import { HomeRouteRoomProvider, HomeSearch } from './client/home';
 import { setAfterLoginRedirectPath } from './afterLoginRedirectPath';
@@ -54,6 +49,8 @@ import { SearchModalRenderer } from '../features/search';
 import { getFallbackSession } from '../state/sessions';
 import { CallStatusRenderer } from './CallStatusRenderer';
 import { CallEmbedProvider } from '../components/CallEmbedProvider';
+import { MobileFriendlyClientNav } from './MobileFriendly';
+import { LogoutSidebarNav } from './client/LogoutSidebarNav';
 
 export const createRouter = (clientConfig: ClientConfig, _screenSize: ScreenSize) => {
   const { hashRouter } = clientConfig;
@@ -110,7 +107,13 @@ export const createRouter = (clientConfig: ClientConfig, _screenSize: ScreenSize
                   <ClientBindAtoms>
                     <ClientNonUIFeatures>
                       <CallEmbedProvider>
-                        <ClientLayout nav={null}>
+                        <ClientLayout
+                          nav={
+                            <MobileFriendlyClientNav>
+                              <LogoutSidebarNav />
+                            </MobileFriendlyClientNav>
+                          }
+                        >
                           <Outlet />
                         </ClientLayout>
                         <CallStatusRenderer />
