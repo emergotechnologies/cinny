@@ -53,7 +53,7 @@ export const clearCacheAndReload = async (mx: MatrixClient) => {
   window.location.reload();
 };
 
-export const logoutClient = async (mx: MatrixClient) => {
+export const logoutClient = async (mx: MatrixClient, redirectUrl?: string) => {
   pushSessionToSW();
   mx.stopClient();
   try {
@@ -63,6 +63,12 @@ export const logoutClient = async (mx: MatrixClient) => {
   }
   await mx.clearStores();
   window.localStorage.clear();
+  // A plain reload would silently re-authenticate against the still-active SSO
+  // session; redirecting to the IdP's end-session endpoint terminates it.
+  if (redirectUrl) {
+    window.location.href = redirectUrl;
+    return;
+  }
   window.location.reload();
 };
 

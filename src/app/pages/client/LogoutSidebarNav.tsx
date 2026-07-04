@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Sidebar, SidebarContent, SidebarStack } from '../../components/sidebar';
-import { LogoutTab } from './sidebar';
+import { AboutTab, LogoutTab } from './sidebar';
 
 export function LogoutSidebarNav() {
   return (
@@ -10,6 +10,7 @@ export function LogoutSidebarNav() {
         scrollable={null}
         sticky={
           <SidebarStack>
+            <AboutTab />
             <LogoutTab />
           </SidebarStack>
         }

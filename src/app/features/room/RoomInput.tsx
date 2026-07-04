@@ -91,6 +91,9 @@ import {
 } from '../../state/upload';
 import { getImageUrlBlob, loadImageElement } from '../../utils/dom';
 import { safeFile } from '../../utils/mimeTypes';
+import { REDACTABLE_IMAGE_MIME_TYPES } from '../../utils/aipulseRedaction';
+import { ImageUploadNotice, RedactImageDialog } from '../../components/redact-image-dialog';
+import { useClientConfig } from '../../hooks/useClientConfig';
 import { fulfilledPromiseSettledResult } from '../../utils/common';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
@@ -178,8 +181,42 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
 
     const sendTypingStatus = useTypingStatusUpdater(mx, roomId);
 
+    const { aipulse } = useClientConfig();
+    const [redactImage, setRedactImage] = useState<{
+      file: File;
+      extraImagesDropped: boolean;
+    }>();
+    const [uploadNotice, setUploadNotice] = useState<string>();
+
     const handleFiles = useCallback(
-      async (files: File[]) => {
+      async (allFiles: File[]) => {
+        const imageFiles = allFiles.filter((f) => f.type.startsWith('image/'));
+        const files = allFiles.filter((f) => !f.type.startsWith('image/'));
+        const redactableImages = imageFiles.filter((f) =>
+          REDACTABLE_IMAGE_MIME_TYPES.includes(f.type)
+        );
+
+        if (imageFiles.length > redactableImages.length) {
+          setUploadNotice('Only JPEG and PNG images can be uploaded.');
+        }
+        if (redactableImages.length > 0) {
+          if (!aipulse?.mediaRedactionUrl) {
+            setUploadNotice(
+              'Image upload is unavailable: the redaction service is not configured.'
+            );
+          } else if (redactImage) {
+            setUploadNotice(
+              'An image is already being redacted. Please finish or cancel it first.'
+            );
+          } else {
+            setRedactImage({
+              file: redactableImages[0],
+              extraImagesDropped: redactableImages.length > 1,
+            });
+          }
+        }
+        if (files.length === 0) return;
+
         setUploadBoard(true);
         const safeFiles = files.map(safeFile);
         const fileItems: TUploadItem[] = [];
@@ -213,7 +250,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
           item: fileItems,
         });
       },
-      [setSelectedFiles, room]
+      [setSelectedFiles, room, aipulse, redactImage]
     );
     const pickFile = useFilePicker(handleFiles, true);
     const handlePaste = useFilePasteHandler(handleFiles);
@@ -506,6 +543,18 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
             </Dialog>
           </OverlayCenter>
         </Overlay>
+        {redactImage && (
+          <RedactImageDialog
+            room={room}
+            file={redactImage.file}
+            extraImagesNotice={redactImage.extraImagesDropped}
+            onComplete={() => setRedactImage(undefined)}
+            onCancel={() => setRedactImage(undefined)}
+          />
+        )}
+        {uploadNotice && (
+          <ImageUploadNotice message={uploadNotice} onClose={() => setUploadNotice(undefined)} />
+        )}
         {autocompleteQuery?.prefix === AutocompletePrefix.RoomMention && (
           <RoomMentionAutocomplete
             roomId={roomId}

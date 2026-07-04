@@ -4,6 +4,11 @@
   "homeserverBaseUrl": "http://localhost:8008",
   "allowCustomHomeservers": false,
 
+  "aipulse": {
+    "mediaRedactionUrl": "http://localhost:8000/api/matrix/upload-media",
+    "logoutRedirectUrl": "https://ai-pulse.at"
+  },
+
   "hashRouter": {
     "enabled": false,
     "basename": "/"

@@ -34,6 +34,7 @@ import { useSyncState } from '../../hooks/useSyncState';
 import { stopPropagation } from '../../utils/keyboard';
 import { SyncStatus } from './SyncStatus';
 import { AuthMetadataProvider } from '../../hooks/useAuthMetadata';
+import { useClientConfig } from '../../hooks/useClientConfig';
 import { getFallbackSession } from '../../state/sessions';
 import { AutoDiscovery } from './AutoDiscovery';
 
@@ -49,6 +50,7 @@ function ClientRootLoading() {
 }
 
 function ClientRootOptions({ mx }: { mx?: MatrixClient }) {
+  const { aipulse } = useClientConfig();
   const [menuAnchor, setMenuAnchor] = useState<RectCords>();
 
   const handleToggle: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -100,7 +102,7 @@ function ClientRootOptions({ mx }: { mx?: MatrixClient }) {
                 <MenuItem
                   onClick={() => {
                     if (mx) {
-                      logoutClient(mx);
+                      logoutClient(mx, aipulse?.logoutRedirectUrl);
                       return;
                     }
                     clearLoginData();

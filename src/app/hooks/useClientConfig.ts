@@ -5,11 +5,18 @@ export type HashRouterConfig = {
   basename?: string;
 };
 
+export type AIPulseConfig = {
+  mediaRedactionUrl?: string;
+  logoutRedirectUrl?: string;
+};
+
 export type ClientConfig = {
   defaultHomeserver?: number;
   homeserverList?: string[];
   homeserverBaseUrl?: string;
   allowCustomHomeservers?: boolean;
+
+  aipulse?: AIPulseConfig;
 
   featuredCommunities?: {
     openAsDefault?: boolean;
